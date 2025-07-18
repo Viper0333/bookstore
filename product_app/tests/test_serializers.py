@@ -1,7 +1,7 @@
 from django.test import TestCase
-from product.models.category import Category
-from product.models.product import Product
-from product.serializers.product_serializer import ProductSerializer
+from product_app.models.category import Category
+from product_app.models.product import Product
+from product_app.serializers.product_serializer import ProductSerializer
 
 class ProductSerializerTest(TestCase):
     def test_valid_data(self):

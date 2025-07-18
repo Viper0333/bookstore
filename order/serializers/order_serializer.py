@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from product.models import Product
-from product.serializers.product_serializer import ProductSerializer
+from product_app.models import Product
+from product_app.serializers.product_serializer import ProductSerializer
 from order.models import Order  # Importa o modelo correto
 
 class OrderSerializer(serializers.ModelSerializer):

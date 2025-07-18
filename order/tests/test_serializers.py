@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 from order.models import Order
-from product.models.product import Product
+from product_app.models.product import Product
 from order.serializers.order_serializer import OrderSerializer
 
 class OrderSerializerTest(TestCase):

@@ -2,7 +2,7 @@ from django.db import models
 
 from django.contrib.auth.models import User
 
-from product.models import Product
+from product_app.models import Product
 
 class Order(models.Model):
     product = models.ManyToManyField(Product, blank=False)

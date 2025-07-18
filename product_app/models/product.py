@@ -1,5 +1,5 @@
 from django.db import models
-from product.models import Category
+from product_app.models import Category
 
 class Product(models.Model):
     title = models.CharField(max_length=100)
