@@ -29,9 +29,6 @@ class TestOrderViewSet(APITestCase):
 
         order_data = json.loads(response.content)
 
-        # Se quiser ver a estrutura da resposta:
-        # print(json.dumps(order_data, indent=4))
-
         self.assertEqual(
             order_data["results"][0]["product"][0]["title"], self.product.title
         )
@@ -45,7 +42,6 @@ class TestOrderViewSet(APITestCase):
             order_data["results"][0]["product"][0]["category"][0]["title"],
             self.category.title,
         )
-
 
     def test_create_order(self):
         user = UserFactory()
