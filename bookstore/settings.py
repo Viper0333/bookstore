@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "debug_toolbar",
     "rest_framework.authtoken",
+    "category",
+
 ]
 
 MIDDLEWARE = [
