@@ -8,6 +8,8 @@ from order.factories import OrderFactory, UserFactory
 from order.models import Order
 from product.factories import CategoryFactory, ProductFactory
 from product.models import Product
+from rest_framework.authtoken.models import Token
+
 
 
 class TestOrderViewSet(APITestCase):
@@ -21,6 +23,10 @@ class TestOrderViewSet(APITestCase):
         self.order = OrderFactory(product=[self.product])
 
     def test_order(self):
+        user = UserFactory()
+        token = Token.objects.create(user=user)
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+
         response = self.client.get(
             reverse("order-list", kwargs={"version": "v1"})
         )
@@ -43,8 +49,15 @@ class TestOrderViewSet(APITestCase):
             self.category.title,
         )
 
+
+
     def test_create_order(self):
         user = UserFactory()
+        token = Token.objects.create(user=user)
+
+        # Adiciona o token no header
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+
         product = ProductFactory()
         data = json.dumps({
             "products_id": [product.id],
@@ -62,3 +75,4 @@ class TestOrderViewSet(APITestCase):
         created_order = Order.objects.get(user=user)
         self.assertEqual(created_order.product.count(), 1)
         self.assertEqual(created_order.product.first().id, product.id)
+
