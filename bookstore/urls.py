@@ -21,7 +21,13 @@ from rest_framework.authtoken.views import obtain_auth_token
 urlpatterns = [
     path("__debug__/", include(debug_toolbar.urls)),
     path("admin/", admin.site.urls),
+    
+    # Mantém as rotas com versão
     re_path("bookstore/(?P<version>(v1|v2))/", include("order.urls")),
     re_path("bookstore/(?P<version>(v1|v2))/", include("product.urls")),
+    
+    # Rota alternativa sem versão
+    path("api/", include("order.urls")),  # <- Adiciona isso
+    
     path("api-token-auth/", obtain_auth_token, name="api_token_auth"),
 ]
