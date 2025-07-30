@@ -1,13 +1,10 @@
 import json
-
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 
 from order.factories import OrderFactory, UserFactory
-from order.models import Order
 from product.factories import CategoryFactory, ProductFactory
-from product.models import Product
 
 
 class TestOrderViewSet(APITestCase):
@@ -24,28 +21,25 @@ class TestOrderViewSet(APITestCase):
         response = self.client.get(
             reverse("order-list", kwargs={"version": "v1"})
         )
-
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         order_data = json.loads(response.content)
 
-        # Se quiser ver a estrutura da resposta:
-        # print(json.dumps(order_data, indent=4))
+        print(json.dumps(order_data, indent=4))  # DEBUG: ver estrutura real da resposta
 
         self.assertEqual(
-            order_data["results"][0]["product"][0]["title"], self.product.title
+            order_data[0]["product"][0]["title"], self.product.title
         )
         self.assertEqual(
-            order_data["results"][0]["product"][0]["price"], self.product.price
+            order_data[0]["product"][0]["price"], self.product.price
         )
         self.assertEqual(
-            order_data["results"][0]["product"][0]["active"], self.product.active
+            order_data[0]["product"][0]["active"], self.product.active
         )
         self.assertEqual(
-            order_data["results"][0]["product"][0]["category"][0]["title"],
+            order_data[0]["product"][0]["category"][0]["title"],
             self.category.title,
         )
-
 
     def test_create_order(self):
         user = UserFactory()
@@ -63,6 +57,6 @@ class TestOrderViewSet(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-        created_order = Order.objects.get(user=user)
+        created_order = self.order.__class__.objects.get(user=user)
         self.assertEqual(created_order.product.count(), 1)
         self.assertEqual(created_order.product.first().id, product.id)
