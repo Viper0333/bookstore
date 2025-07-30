@@ -1,5 +1,6 @@
 # Versao_29_07_2224
 
+
 """
 Django settings for bookstore project.
 
