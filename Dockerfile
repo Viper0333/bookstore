@@ -1,7 +1,7 @@
-# Etapa base: define ambiente
+# Etapa base para configuração do Python e Poetry
 FROM python:3.11-slim as python-base
 
-# Variáveis de ambiente
+# Configuração de variáveis de ambiente
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=off \
@@ -9,50 +9,44 @@ ENV PYTHONUNBUFFERED=1 \
     PIP_DEFAULT_TIMEOUT=100 \
     POETRY_HOME="/opt/poetry" \
     POETRY_VIRTUALENVS_IN_PROJECT=true \
-    PATH="/opt/poetry/bin:$PATH"
+    POETRY_NO_INTERACTION=1 \
+    PYSETUP_PATH="/opt/pysetup" \
+    VENV_PATH="/opt/pysetup/.venv"
 
-# Instala dependências básicas e Poetry
+# Ajusta PATH para incluir Poetry e venv
+ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
+
+# Instala dependências de sistema
 RUN apt-get update && apt-get install --no-install-recommends -y \
-    curl build-essential libpq-dev gcc \
-    && curl -sSL https://install.python-poetry.org | python3 - \
-    && poetry --version \
-    && apt-get purge --auto-remove -y build-essential \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    curl \
+    build-essential \
+    libpq-dev \
+    gcc \
+ && rm -rf /var/lib/apt/lists/*
 
-# Etapa build: instala dependências com Poetry
-FROM python-base as builder
+# Instala Poetry atualizado
+RUN pip install --no-cache-dir poetry==1.8.3
 
-WORKDIR /app
+# Instala psycopg2 (opcional — poderia ir no pyproject.toml)
+RUN pip install --no-cache-dir psycopg2
 
+# Define pasta de instalação das deps
+WORKDIR $PYSETUP_PATH
+
+# Copia apenas arquivos de dependências para otimizar cache
 COPY poetry.lock pyproject.toml ./
-RUN poetry install --no-root --only main
 
-# Etapa final (produção/dev)
-FROM python-base
+# Instala dependências (sem dev, se for produção)
+RUN poetry install --no-root --without dev
 
+# Define pasta final da aplicação
 WORKDIR /app
 
-# Copia o ambiente virtual do builder
-COPY --from=builder /app/.venv /app/.venv
+# Copia código para a imagem
+COPY . /app/
 
-# Copia o restante da aplicação
-COPY . .
-
-# Ativa o virtualenv no PATH
-ENV PATH="/app/.venv/bin:$PATH"
-
-# Expondo porta padrão do Django
+# Expõe porta
 EXPOSE 8000
 
-# Variável de controle de ambiente
-ENV DJANGO_ENV=prod
-
-# Entrada: muda comando conforme ambiente
-CMD if [ "$DJANGO_ENV" = "dev" ]; then \
-        poetry run python manage.py runserver 0.0.0.0:8000; \
-    else \
-        poetry run python manage.py collectstatic --noinput && \
-        poetry run gunicorn bookstore.wsgi:application --bind 0.0.0.0:8000 --workers 4; \
-    fi
-
-
+# Comando default
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
