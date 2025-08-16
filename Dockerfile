@@ -1,52 +1,57 @@
-# Etapa base para configuração do Python e Poetry
-FROM python:3.11-slim as python-base
+# Utilizando versão mais recente do Python
+FROM python:3.12-slim AS python-base
 
-# Configuração de variáveis de ambiente
+    # Configurações do Python
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
+    \
+    # Configurações do pip
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100 \
+    \
+    # Nova versão do Poetry
+    POETRY_VERSION=2.0.1 \
     POETRY_HOME="/opt/poetry" \
     POETRY_VIRTUALENVS_IN_PROJECT=true \
     POETRY_NO_INTERACTION=1 \
+    \
+    # Caminhos
     PYSETUP_PATH="/opt/pysetup" \
     VENV_PATH="/opt/pysetup/.venv"
 
-# Ajusta PATH para incluir Poetry e venv
+# Adicionando Poetry e venv ao PATH
 ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
 
-# Instala dependências de sistema
-RUN apt-get update && apt-get install --no-install-recommends -y \
-    curl \
-    build-essential \
-    libpq-dev \
-    gcc \
- && rm -rf /var/lib/apt/lists/*
+# Instalando dependências do sistema
+RUN apt-get update \
+    && apt-get install --no-install-recommends -y \
+        curl \
+        build-essential \
+        # Dependências para PostgreSQL
+        libpq-dev \
+        gcc \
+    && pip install psycopg2
 
-# Instala Poetry atualizado
-RUN pip install --no-cache-dir poetry==1.8.3
+# Instalação moderna do Poetry (método oficial atualizado)
+RUN curl -sSL https://install.python-poetry.org | python - --version ${POETRY_VERSION}
 
-# Instala psycopg2 (opcional — poderia ir no pyproject.toml)
-RUN pip install --no-cache-dir psycopg2
-
-# Define pasta de instalação das deps
+# Copiar e instalar dependências do projeto
 WORKDIR $PYSETUP_PATH
-
-# Copia apenas arquivos de dependências para otimizar cache
 COPY poetry.lock pyproject.toml ./
 
-# Instala dependências (sem dev, se for produção)
-RUN poetry install --no-root --without dev
+# Instalação de dependências com Poetry
+RUN poetry install --only=main --no-root  # Para produção use --only=main
+# RUN poetry install  # Para desenvolvimento (inclui dev dependencies)
 
-# Define pasta final da aplicação
+# Configuração final do workspace
 WORKDIR /app
-
-# Copia código para a imagem
 COPY . /app/
 
-# Expõe porta
-EXPOSE 8000
+# Copia o entrypoint e torna-o executável
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 
-# Comando default
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Define o entrypoint e o comando padrão
+ENTRYPOINT ["/app/entrypoint.sh"]
+CMD ["gunicorn", "bookstore.wsgi:application", "--bind", "0.0.0.0:8000", "--access-logfile", "/dev/null", "--log-level", "warning"]
