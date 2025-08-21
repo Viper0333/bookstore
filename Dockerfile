@@ -40,6 +40,12 @@ RUN curl -sSL https://install.python-poetry.org | python - --version ${POETRY_VE
 WORKDIR $PYSETUP_PATH
 COPY poetry.lock pyproject.toml ./
 
+RUN python -m pip install --upgrade pip setuptools wheel
+WORKDIR $PYSETUP_PATH
+COPY poetry.lock pyproject.toml ./
+RUN poetry install --only=main --no-root
+
+
 # Instalação de dependências com Poetry
 RUN poetry install --only=main --no-root  # Para produção use --only=main
 # RUN poetry install  # Para desenvolvimento (inclui dev dependencies)
