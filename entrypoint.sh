@@ -1,13 +1,13 @@
 #!/bin/sh
-set -e
 
-echo ">> Rodando entrypoint.sh..."
-
-# Aplica migrations
+# Aplicar migrações automaticamente
 python manage.py migrate --noinput
 
-# Coleta arquivos estáticos
+# Coletar arquivos estáticos (se tiver)
 python manage.py collectstatic --noinput
 
-# Executa o comando passado (ex: gunicorn ou runserver)
-exec "$@"
+# Iniciar Gunicorn
+exec gunicorn bookstore.wsgi:application \
+    --bind 0.0.0.0:${PORT:-8000} \
+    --access-logfile /dev/null \
+    --log-level warning
