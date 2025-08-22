@@ -4,7 +4,7 @@
 python manage.py migrate --noinput
 
 # Coletar arquivos estáticos (se tiver)
-python manage.py collectstatic --noinput
+python manage.py collectstatic --no-input
 
 # Iniciar Gunicorn
 exec gunicorn bookstore.wsgi:application \
