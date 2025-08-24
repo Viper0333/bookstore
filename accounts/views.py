@@ -6,7 +6,10 @@ from .serializers import RegisterSerializer, UserSerializer, ProfileSerializer, 
 from .models import Profile, Post, Like, Comment
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
 
+def home(request):
+    return HttpResponse("Bem-vindo à Bookstore!")
 
 # Registrar usuário
 class RegisterAPIView(generics.CreateAPIView):
