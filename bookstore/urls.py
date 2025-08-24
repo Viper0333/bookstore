@@ -17,17 +17,31 @@ import debug_toolbar
 from django.contrib import admin
 from django.urls import include, path, re_path
 from rest_framework.authtoken.views import obtain_auth_token
+from django.http import HttpResponse
+
+# View simples para a página inicial
+def home(request):
+    return HttpResponse("Bem-vindo à Bookstore API!")
 
 urlpatterns = [
+    # Debug toolbar
     path("__debug__/", include(debug_toolbar.urls)),
+
+    # Admin
     path("admin/", admin.site.urls),
-    
-    # Mantém as rotas com versão
-    re_path("bookstore/(?P<version>(v1|v2))/", include("order.urls")),
-    re_path("bookstore/(?P<version>(v1|v2))/", include("product.urls")),
-    
+
+    # Página inicial
+    path("", home, name="home"),
+
+    # Rotas com versão (v1 ou v2)
+    re_path(r"^bookstore/(?P<version>v1|v2)/", include("order.urls")),
+    re_path(r"^bookstore/(?P<version>v1|v2)/", include("product.urls")),
+
     # Rota alternativa sem versão
-    path("api/", include("order.urls")),  # <- Adiciona isso
-    
+    path("api/order/", include("order.urls")),  
+    path("api/product/", include("product.urls")),  
+
+    # Autenticação via token
     path("api-token-auth/", obtain_auth_token, name="api_token_auth"),
 ]
+
