@@ -8,7 +8,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "changeme")
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = [
-    "localhost",
+    "bookstore-hrg7.onrender.com",
     "127.0.0.1",
     "bookstore.onrender.com",  # substitua pelo seu domínio Render
 ]
