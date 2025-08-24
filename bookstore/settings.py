@@ -4,15 +4,22 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Configurações para aceitar corretamente headers de proxy no Render
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+
 SECRET_KEY = os.environ.get("SECRET_KEY", "changeme")
+
 DEBUG = os.environ.get("DEBUG", "False") == "True"
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".onrender.com"]
 
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    "bookstore.onrender.com",  # substitua pelo seu domínio Render
-]
+# DEBUG = True
+# ALLOWED_HOSTS = ["*"]
 
+
+
+# Aplicativos instalados
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -60,12 +67,15 @@ TEMPLATES = [
     },
 ]
 
+# Permite HTTPS via proxy Render
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+USE_X_FORWARDED_HOST = True
 
+# Banco de dados (Postgres Render ou fallback SQLite local)
 DATABASES = {
     "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",  # fallback para SQLite local
-        conn_max_age=600,  # mantém conexões persistentes
+        default='postgresql://postgres:postgres@localhost:5432/mysite',
+        conn_max_age=600,
     )
 }
 
