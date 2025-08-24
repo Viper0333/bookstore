@@ -1,0 +1,30 @@
+<h1>Atualizar Perfil</h1>
+<form id="profile-form" enctype="multipart/form-data">
+    <label>Nome:</label><input name="first_name" placeholder="Primeiro nome" />
+    <label>Sobrenome:</label><input name="last_name" placeholder="Último nome" />
+    <label>Senha:</label><input name="password" type="password" placeholder="Nova senha" />
+    <label>Foto:</label><input name="avatar" type="file" />
+    <button type="submit">Atualizar Perfil</button>
+</form>
+<p id="profile-msg"></p>
+
+<script>
+const form = document.getElementById('profile-form');
+form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const formData = new FormData(form);
+
+    const res = await fetch('/api/auth/profile', {
+        method: 'PUT',
+        body: formData,
+        credentials: 'same-origin'  // envia cookie de sessão
+    });
+
+    if (res.ok) {
+        document.getElementById('profile-msg').textContent = 'Perfil atualizado!';
+    } else {
+        const data = await res.json();
+        document.getElementById('profile-msg').textContent = JSON.stringify(data);
+    }
+});
+</script>

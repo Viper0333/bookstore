@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <script defer src="{% static 'accounts/js/auth.js' %}"></script>
+    <style>
+        body { font-family: system-ui, Arial, sans-serif; margin: 0; padding: 2rem; display: grid; place-items: center; }
+        .card { width: 100%; max-width: 520px; padding: 1.5rem; border: 1px solid #ddd; border-radius: 16px; box-shadow: 0 2px 16px rgba(0,0,0,0.05); }
+        label { display:block; margin-top: .75rem; }
+        input { width: 100%; padding: .65rem; border: 1px solid #ccc; border-radius: 10px; }
+        button { width: 100%; padding: .8rem; margin-top: 1rem; border-radius: 12px; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Criar conta</h2>
+        <form id="register-form">
+            <label>Usuário</label>
+            <input name="username" required />
+            <label>E-mail</label>
+            <input name="email" type="email" />
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+              <div>
+                <label>Nome</label>
+                <input name="first_name"/>
+              </div>
+              <div>
+                <label>Sobrenome</label>
+                <input name="last_name"/>
+              </div>
+            </div>
+            <label>Senha</label>
+            <input name="password" type="password" required />
+            <label>Confirmar Senha</label>
+            <input name="password2" type="password" required />
+            <button type="submit">Cadastrar</button>
+        </form>
+        <p id="register-msg"></p>
+        <p>Já tem conta? <a href="/login">Entrar</a></p>
+    </div>
+</body>
+</html>
