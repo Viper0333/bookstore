@@ -71,10 +71,10 @@ TEMPLATES = [
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 USE_X_FORWARDED_HOST = True
 
-# Banco de dados (Postgres Render ou fallback SQLite local)
+# Banco de dados (Postgres no Render ou fallback SQLite local)
 DATABASES = {
     "default": dj_database_url.config(
-        default='postgresql://postgres:postgres@localhost:5432/mysite',
+        default=os.environ.get("DATABASE_URL", "sqlite:///" + str(BASE_DIR / "db.sqlite3")),
         conn_max_age=600,
     )
 }
