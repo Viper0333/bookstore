@@ -1,0 +1,12 @@
+<h2>Perfil</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h3>Dados do Usuário</h3>
+    {{ u_form.as_p }}
+    <h3>Foto de Perfil</h3>
+    {% if user.profile.avatar %}
+        <img src="{{ user.profile.avatar.url }}" width="100">
+    {% endif %}
+    {{ p_form.as_p }}
+    <button type="submit">Salvar</button>
+</form>
