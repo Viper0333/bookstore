@@ -19,6 +19,8 @@ from django.urls import include, path, re_path
 from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
+    path("", home, name="home"),   # 👈 rota raiz
+    
     path("__debug__/", include(debug_toolbar.urls)),
     path("admin/", admin.site.urls),
     
