@@ -17,6 +17,7 @@ import debug_toolbar
 from django.contrib import admin
 from django.urls import include, path, re_path
 from rest_framework.authtoken.views import obtain_auth_token
+from order.views import home
 
 urlpatterns = [
     path("", home, name="home"),   # 👈 rota raiz
