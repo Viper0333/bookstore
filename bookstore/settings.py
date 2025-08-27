@@ -9,10 +9,10 @@ USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 
-SECRET_KEY = os.environ.get("SECRET_KEY", "changeme")
+SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key-change-me")
 
-DEBUG = os.environ.get("DEBUG", "False") == "True"
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".onrender.com"]
+DEBUG = os.environ.get("DEBUG", "1") == "1"
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split(",")
 
 # DEBUG = True
 # ALLOWED_HOSTS = ["*"]
