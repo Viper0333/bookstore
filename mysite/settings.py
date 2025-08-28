@@ -67,6 +67,14 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
+# Redirecionamento padrão para login
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/profile/'
+
+# URL para logout (opcional)
+LOGOUT_REDIRECT_URL = '/login/'
+
+
 LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
