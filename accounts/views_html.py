@@ -23,13 +23,13 @@ def register_view(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.set_password(form.cleaned_data["password"])
+            user.set_password(form.cleaned_data['password'])
             user.save()
             Profile.objects.create(user=user)
-            return redirect("login")
+            return redirect('login')  # após cadastro, vai para login
     else:
         form = RegisterForm()
-    return render(request, "accounts/register.html", {"form": form})
+    return render(request, 'accounts/register.html', {'form': form})
 
 
 @login_required
