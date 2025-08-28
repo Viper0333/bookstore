@@ -21,6 +21,9 @@ INSTALLED_APPS = [
     "django_extensions",
 ]
 
+APPEND_SLASH = False
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -50,6 +53,17 @@ TEMPLATES = [
     },
 ]
 
+# Redirecionamento padrão para login
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/profile/'
+
+# URL para logout (opcional)
+LOGOUT_REDIRECT_URL = '/login/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+
+
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
@@ -67,12 +81,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Redirecionamento padrão para login
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/profile/'
 
-# URL para logout (opcional)
-LOGOUT_REDIRECT_URL = '/login/'
 
 
 LANGUAGE_CODE = 'pt-br'
@@ -111,6 +120,5 @@ SIMPLE_JWT = {
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
 }
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+
 

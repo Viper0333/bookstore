@@ -5,10 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro</title>
-    <script defer src="{% static 'accounts/js/auth.js' %}"></script>
     <style>
         body { font-family: system-ui, Arial, sans-serif; margin: 0; padding: 2rem; display: grid; place-items: center; }
-        .card { width: 100%; max-width: 520px; padding: 1.5rem; border: 1px solid #ddd; border-radius: 16px; box-shadow: 0 2px 16px rgba(0,0,0,0.05); }
+        .card { width: 100%; max-width: 520px; padding: 1.5rem; border: 1px solid #ddd; border-radius: 16px; box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05); }
         label { display:block; margin-top: .75rem; }
         input { width: 100%; padding: .65rem; border: 1px solid #ccc; border-radius: 10px; }
         button { width: 100%; padding: .8rem; margin-top: 1rem; border-radius: 12px; border: none; cursor: pointer; }
@@ -17,7 +16,8 @@
 <body>
     <div class="card">
         <h2>Criar conta</h2>
-        <form id="register-form">
+        <form id="register-form" method="POST" action="{% url 'register' %}">
+            {% csrf_token %}
             <label>Usuário</label>
             <input name="username" required />
             <label>E-mail</label>
@@ -38,8 +38,19 @@
             <input name="password2" type="password" required />
             <button type="submit">Cadastrar</button>
         </form>
-        <p id="register-msg"></p>
-        <p>Já tem conta? <a href="/login">Entrar</a></p>
+        {% if form.errors %}
+            <ul style="color:red;">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ field.label }}: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        <p>Já tem conta? <a href="{% url 'login' %}">Entrar</a></p>
     </div>
 </body>
 </html>

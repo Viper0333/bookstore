@@ -2,12 +2,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from accounts.views import home
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('accounts.urls_api')),  # todas as rotas de urls_api.py vão pra /api/
-    path('', include('accounts.urls')),  # agora homepage é login
+    path('api/', include('accounts.urls_api')),  # APIs REST
+    path('', include('accounts.urls')),          # templates HTML
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
