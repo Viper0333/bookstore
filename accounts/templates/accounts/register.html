@@ -17,27 +17,33 @@
     <div class="card">
         <h2>Criar conta</h2>
         <form id="register-form" method="POST" action="{% url 'register' %}">
-            {% csrf_token %}
-            <label>Usuário</label>
-            <input name="username" required />
-            <label>E-mail</label>
-            <input name="email" type="email" />
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+          {% csrf_token %}
+          <label>Usuário</label>
+          <input name="username" required />
+
+          <label>E-mail</label>
+          <input name="email" type="email" />
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
               <div>
-                <label>Nome</label>
-                <input name="first_name"/>
+                  <label>Nome</label>
+                  <input name="first_name"/>
               </div>
               <div>
-                <label>Sobrenome</label>
-                <input name="last_name"/>
+                  <label>Sobrenome</label>
+                  <input name="last_name"/>
               </div>
-            </div>
-            <label>Senha</label>
-            <input name="password" type="password" required />
-            <label>Confirmar Senha</label>
-            <input name="password2" type="password" required />
-            <button type="submit">Cadastrar</button>
+          </div>
+
+          <label>Senha</label>
+          <input name="password1" type="password" required />
+
+          <label>Confirmar Senha</label>
+          <input name="password2" type="password" required />
+
+          <button type="submit">Cadastrar</button>
         </form>
+
         {% if form.errors %}
             <ul style="color:red;">
             {% for field in form %}
@@ -50,6 +56,7 @@
             {% endfor %}
             </ul>
         {% endif %}
+
         <p>Já tem conta? <a href="{% url 'login' %}">Entrar</a></p>
     </div>
 </body>
