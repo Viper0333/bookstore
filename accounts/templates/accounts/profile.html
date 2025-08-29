@@ -1,4 +1,21 @@
-<h1>Atualizar Perfil</h1>
+<h1>Perfil de {{ user_profile.username }}</h1>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ u_form.as_p }}
+    {{ p_form.as_p }}
+    <button type="submit">Atualizar Perfil</button>
+</form>
+
+<p>
+    <a href="{% url 'logout' %}">Sair</a>
+</p>
+
+
+
+
+
+<!-- <h1>Atualizar Perfil</h1>
 <form id="profile-form" enctype="multipart/form-data">
     <label>Nome:</label><input name="first_name" placeholder="Primeiro nome" />
     <label>Sobrenome:</label><input name="last_name" placeholder="Último nome" />
@@ -27,4 +44,4 @@ form.addEventListener('submit', async e => {
         document.getElementById('profile-msg').textContent = JSON.stringify(data);
     }
 });
-</script>
+</script> -->

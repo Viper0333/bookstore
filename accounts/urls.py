@@ -4,10 +4,11 @@ from django.shortcuts import redirect
 
 urlpatterns = [
     path('', lambda request: redirect('login')),  # raiz redireciona para login
-    # Páginas HTML
     path('login/', views_html.login_view, name='login'),
     path('register/', views_html.register_view, name='register'),
-    path('profile/', views_html.profile_view, name='profile'),
+    path('profile/<str:username>/', views_html.profile_view, name='profile'),
+    path("logout/", views_html.logout_view, name="logout"),
+
 ]
 
 
