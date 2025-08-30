@@ -10,51 +10,53 @@
         .card { width: 100%; max-width: 520px; padding: 1.5rem; border: 1px solid #ddd; border-radius: 16px; box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05); }
         label { display:block; margin-top: .75rem; }
         input { width: 100%; padding: .65rem; border: 1px solid #ccc; border-radius: 10px; }
-        button { width: 100%; padding: .8rem; margin-top: 1rem; border-radius: 12px; border: none; cursor: pointer; }
+        button { width: 100%; padding: .8rem; margin-top: 1rem; border-radius: 12px; border: none; cursor: pointer; background: #4CAF50; color: #fff; font-weight: bold; }
+        button:hover { background: #43a047; }
+        .errors { color: red; font-size: 0.9rem; margin-top: .5rem; }
     </style>
 </head>
 <body>
     <div class="card">
         <h2>Criar conta</h2>
-        <form id="register-form" method="POST" action="{% url 'register' %}">
+        <form method="post">
           {% csrf_token %}
-          <label>Usuário</label>
-          <input name="username" required />
+          {{ form.non_field_errors }}
 
-          <label>E-mail</label>
-          <input name="email" type="email" />
+          <p>
+            {{ form.username.label_tag }}<br>
+            {{ form.username }}
+            <div class="errors">{{ form.username.errors }}</div>
+          </p>
 
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
-              <div>
-                  <label>Nome</label>
-                  <input name="first_name"/>
-              </div>
-              <div>
-                  <label>Sobrenome</label>
-                  <input name="last_name"/>
-              </div>
-          </div>
+          <p>
+            {{ form.email.label_tag }}<br>
+            {{ form.email }}
+            <div class="errors">{{ form.email.errors }}</div>
+          </p>
 
-          <label>Senha</label>
-          <input name="password1" type="password" required />
+          <p>
+            {{ form.password.label_tag }}<br>
+            {{ form.password }}
+            <div class="errors">{{ form.password.errors }}</div>
+          </p>
 
-          <label>Confirmar Senha</label>
-          <input name="password2" type="password" required />
+          <p>
+            {{ form.password2.label_tag }}<br>
+            {{ form.password2 }}
+            <div class="errors">{{ form.password2.errors }}</div>
+          </p>
 
           <button type="submit">Cadastrar</button>
         </form>
 
         {% if form.errors %}
-            <ul style="color:red;">
-            {% for field in form %}
-                {% for error in field.errors %}
-                    <li>{{ field.label }}: {{ error }}</li>
-                {% endfor %}
-            {% endfor %}
-            {% for error in form.non_field_errors %}
+          <ul class="errors">
+            {% for field, errors in form.errors.items %}
+              {% for error in errors %}
                 <li>{{ error }}</li>
+              {% endfor %}
             {% endfor %}
-            </ul>
+          </ul>
         {% endif %}
 
         <p>Já tem conta? <a href="{% url 'login' %}">Entrar</a></p>

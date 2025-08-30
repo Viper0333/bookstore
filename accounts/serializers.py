@@ -49,13 +49,6 @@ class ProfileSerializer(serializers.ModelSerializer):
         return obj.following.count()
 
 
-class PostSerializer(serializers.ModelSerializer):
-    author = serializers.CharField(source="author.username", read_only=True)
-
-    class Meta:
-        model = Post
-        fields = ['id', 'author', 'content', 'created_at']
-
 class CommentSerializer(serializers.ModelSerializer):
     user = serializers.CharField(source="user.username", read_only=True)
 
