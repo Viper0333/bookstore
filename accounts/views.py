@@ -145,3 +145,11 @@ def register_view(request):
 def limpar_profiles(request):
     Profile.objects.all().delete()
     return HttpResponse("Todos os Profiles foram apagados.")
+from django.contrib.auth.models import User
+from django.http import HttpResponse
+from .models import Profile
+
+def criar_profiles_usuarios(request):
+    for user in User.objects.all():
+        Profile.objects.get_or_create(user=user)
+    return HttpResponse("Profiles criados para todos os usuários.")
