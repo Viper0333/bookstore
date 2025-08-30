@@ -16,11 +16,12 @@ class Profile(models.Model):
 
 class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
-    content = models.TextField()
+    content = models.TextField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to="posts/", null=True, blank=True)
 
     def __str__(self):
-        return f"{self.author.username}: {self.content[:30]}"
+        return f"{self.author.username} - {self.content[:30]}"
 
 
 # Signals para criar profile automaticamente

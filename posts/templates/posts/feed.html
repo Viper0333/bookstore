@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Feed</h2>
+
+    <form method="POST" enctype="multipart/form-data" action="{% url 'novo_post' %}">
+        {% csrf_token %}
+        <textarea name="content" rows="3" placeholder="O que você está pensando?"></textarea>
+        <input type="file" name="image">
+        <button type="submit">Publicar</button>
+    </form>
+
+    <hr>
+
+    {% for post in posts %}
+        <div style="margin-bottom:20px; border-bottom:1px solid #ddd; padding:10px;">
+        <strong>{{ post.author.username }}</strong> - {{ post.created_at|date:"d/m/Y H:i" }} <br>
+        {{ post.content|linebreaks }}
+        {% if post.image %}
+            <div><img src="{{ post.image.url }}" width="300"></div>
+        {% endif %}
+        </div>
+    {% empty %}
+        <p>Nenhum post ainda.</p>
+    {% endfor %}
+{% endblock %}

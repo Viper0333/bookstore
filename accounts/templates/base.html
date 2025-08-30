@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Meu App{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1>🚀 Meu Projeto</h1>
+        <nav>
+            <a href="{% url 'feed' %}">Feed</a> |
+            <a href="/admin/">Admin</a> |
+            <a href="/accounts/logout/">Sair</a>
+        </nav>
+        <hr>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
