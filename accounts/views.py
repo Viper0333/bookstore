@@ -1,20 +1,30 @@
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
+from django.contrib import messages
+from django.contrib.auth.models import User
+
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.contrib.auth.models import User
-from .serializers import RegisterSerializer, UserSerializer, ProfileSerializer, PostSerializer, CommentSerializer
-from .models import Profile, Post, Like, Comment
 from rest_framework.permissions import IsAuthenticated
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
-from django.contrib import messages
+
+from .serializers import (
+    RegisterSerializer,
+    UserSerializer,
+    ProfileSerializer,
+    PostSerializer,
+    CommentSerializer
+)
+from .models import Profile, Post, Like, Comment
 from .forms import RegisterForm, ProfileForm
 
+
+# Página inicial
 def home(request):
     return HttpResponse("Bem-vindo à Bookstore!")
 
-# Registrar usuário
+
+# API para registrar usuário via DRF
 class RegisterAPIView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
@@ -29,7 +39,7 @@ class MeAPIView(APIView):
         return Response(UserSerializer(request.user).data)
 
 
-# Perfil logado
+# Perfil do usuário logado
 class ProfileAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -67,16 +77,19 @@ class FeedAPIView(APIView):
         posts = Post.objects.filter(author__profile__in=following_profiles).order_by("-created_at")
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
-    
+
+
+# Lista de usuários
 class UserListView(APIView):
-    permission_classes = [IsAuthenticated]  # apenas usuários autenticados podem ver
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data)
 
-# Curtir / descurtir
+
+# Curtir / descurtir postagem
 class LikeAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -90,7 +103,7 @@ class LikeAPIView(APIView):
         return Response({"message": "Você curtiu a postagem."})
 
 
-# Comentar
+# Comentar postagem
 class CommentAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -101,7 +114,9 @@ class CommentAPIView(APIView):
             serializer.save(user=request.user, post=post)
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
-    
+
+
+# Registro de usuário via template HTML
 def register_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST, request.FILES)
@@ -110,7 +125,6 @@ def register_view(request):
             user = form.save()  # salva o usuário com senha hash
 
             # Cria o profile apenas se não existir
-            from .models import Profile
             profile, created = Profile.objects.get_or_create(user=user)
 
             # Se enviou avatar, salva no profile
@@ -118,7 +132,10 @@ def register_view(request):
                 profile.avatar = request.FILES['avatar']
                 profile.save()
 
+            messages.success(request, "Conta criada com sucesso!")
             return redirect('login')
+        else:
+            messages.error(request, "Por favor, corrija os erros abaixo.")
     else:
         form = RegisterForm()
 
