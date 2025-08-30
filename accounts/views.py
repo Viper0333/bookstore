@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 
 from rest_framework import generics, permissions
 from rest_framework.response import Response
@@ -120,12 +121,15 @@ class CommentAPIView(APIView):
 def register_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST, request.FILES)
-
         if form.is_valid():
-            user = form.save()  # salva o usuário com senha hash
+            user = form.save()  # salva usuário com password hash
 
-            # Cria o profile apenas se não existir
-            profile, created = Profile.objects.get_or_create(user=user)
+            # Tenta criar o Profile, se já existir, pega o existente
+            from .models import Profile
+            try:
+                profile, created = Profile.objects.get_or_create(user=user)
+            except IntegrityError:
+                profile = Profile.objects.get(user=user)
 
             # Se enviou avatar, salva no profile
             if 'avatar' in request.FILES:
@@ -141,8 +145,6 @@ def register_view(request):
 
     return render(request, 'register.html', {'form': form})
 
-from django.http import HttpResponse
-from .models import Profile
 
 def limpar_profiles(request):
     # Remove Profiles órfãos
