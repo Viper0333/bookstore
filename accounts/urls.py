@@ -2,6 +2,7 @@ from django.urls import path
 from . import views_html
 from django.shortcuts import redirect
 from . import views  # importa todas as views do app
+from .views import criar_profiles_usuarios
 
 urlpatterns = [
     path('', lambda request: redirect('login')),  # raiz redireciona para login
@@ -10,7 +11,8 @@ urlpatterns = [
     path('profile/<str:username>/', views_html.profile_view, name='profile'),
     path("logout/", views_html.logout_view, name="logout"),
     # urls.py
-    path('limpar-profiles/', views.limpar_profiles)
+    path('limpar-profiles/', views.limpar_profiles, name='limpar_profiles'),
+    path('criar-profiles/', criar_profiles_usuarios, name='criar_profiles'),
 
 
 ]

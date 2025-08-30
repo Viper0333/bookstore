@@ -141,13 +141,27 @@ def register_view(request):
 
     return render(request, 'register.html', {'form': form})
 
-#limpar os Profiles do banco do servidor:
-def limpar_profiles(request):
-    Profile.objects.all().delete()
-    return HttpResponse("Todos os Profiles foram apagados.")
-from django.contrib.auth.models import User
 from django.http import HttpResponse
 from .models import Profile
+
+def limpar_profiles(request):
+    # Remove Profiles órfãos
+    Profile.objects.filter(user__isnull=True).delete()
+    # Remove duplicados (mantém apenas um por user)
+    from django.db.models import Count
+    duplicates = (
+        Profile.objects
+        .values('user')
+        .annotate(user_count=Count('id'))
+        .filter(user_count__gt=1)
+    )
+    for dup in duplicates:
+        profiles = Profile.objects.filter(user_id=dup['user'])
+        # Mantém o primeiro, deleta os outros
+        for profile in profiles[1:]:
+            profile.delete()
+    return HttpResponse("Profiles órfãos e duplicados removidos")
+
 
 def criar_profiles_usuarios(request):
     for user in User.objects.all():
