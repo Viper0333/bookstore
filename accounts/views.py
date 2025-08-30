@@ -105,25 +105,21 @@ class CommentAPIView(APIView):
 def register_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST, request.FILES)
-        profile_form = ProfileForm(request.POST, request.FILES)
 
-        if form.is_valid() and profile_form.is_valid():
-            user = form.save()  # salva o usuário com password hash
-            
+        if form.is_valid():
+            user = form.save()  # salva o usuário com senha hash
+
             # Cria o profile apenas se não existir
+            from .models import Profile
             profile, created = Profile.objects.get_or_create(user=user)
+
+            # Se enviou avatar, salva no profile
             if 'avatar' in request.FILES:
                 profile.avatar = request.FILES['avatar']
                 profile.save()
 
-            messages.success(request, "Conta criada com sucesso!")
             return redirect('login')
     else:
         form = RegisterForm()
-        profile_form = ProfileForm()
 
-    context = {
-        'form': form,
-        'profile_form': profile_form
-    }
-    return render(request, 'register.html', context)
+    return render(request, 'register.html', {'form': form})
