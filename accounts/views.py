@@ -140,3 +140,8 @@ def register_view(request):
         form = RegisterForm()
 
     return render(request, 'register.html', {'form': form})
+
+#limpar os Profiles do banco do servidor:
+def limpar_profiles(request):
+    Profile.objects.all().delete()
+    return HttpResponse("Todos os Profiles foram apagados.")
