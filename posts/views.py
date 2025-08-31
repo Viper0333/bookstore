@@ -17,6 +17,6 @@ def novo_post(request):
         if content or image:
             Post.objects.create(author=request.user, content=content, image=image)
 
-        return redirect('posts')  # redireciona para o feed depois de criar post
+        return redirect('feed')  # redireciona para o feed depois de criar post
 
-    return redirect('posts')
+    return redirect('feed')
