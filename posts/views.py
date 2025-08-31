@@ -4,6 +4,7 @@ from .models import Post
 
 @login_required
 def feed(request):
+    # Busca todos os posts de todos os usuários
     posts = Post.objects.all().order_by('-created_at')
     return render(request, 'posts/feed.html', {'posts': posts})
 
