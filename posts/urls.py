@@ -2,6 +2,9 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.feed, name='post'),
+    # Página principal do feed (lista de posts)
+    path('', views.feed, name='posts'),
+
+    # Criar novo post
     path('novo/', views.novo_post, name='novo_post'),
 ]

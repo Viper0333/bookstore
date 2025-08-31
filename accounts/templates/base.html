@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Meu App{% endblock %}</title>
+    <title>🚀 Meu Projeto</title>
 </head>
 <body>
     <header>
@@ -10,7 +10,7 @@
         <nav>
             <a href="{% url 'posts' %}">Posts</a> |
             <a href="{% url 'profile' username=user.username %}">Meu Perfil</a> |
-            <a href="{% url 'post' %}">Feed</a> |
+            <a href="{% url 'posts' %}">Feed</a> |
             <a href="/admin/">Admin</a> |
             <a href="/accounts/logout/">Sair</a>
         </nav>
@@ -18,7 +18,8 @@
     </header>
 
     <main>
-        {% block content %}{% endblock %}
+        {% block content %}
+        {% endblock %}
     </main>
 </body>
 </html>

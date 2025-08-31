@@ -14,11 +14,11 @@
 
     {% for post in posts %}
         <div style="margin-bottom:20px; border-bottom:1px solid #ddd; padding:10px;">
-        <strong>{{ post.author.username }}</strong> - {{ post.created_at|date:"d/m/Y H:i" }} <br>
-        {{ post.content|linebreaks }}
-        {% if post.image %}
-            <div><img src="{{ post.image.url }}" width="300"></div>
-        {% endif %}
+            <strong>{{ post.author.username }}</strong> - {{ post.created_at|date:"d/m/Y H:i" }} <br>
+            {{ post.content|linebreaks }}
+            {% if post.image %}
+                <div><img src="{{ post.image.url }}" width="300"></div>
+            {% endif %}
         </div>
     {% empty %}
         <p>Nenhum post ainda.</p>
