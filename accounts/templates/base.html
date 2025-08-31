@@ -8,6 +8,8 @@
     <header>
         <h1>🚀 Meu Projeto</h1>
         <nav>
+            <a href="{% url 'posts' %}">Posts</a> |
+            <a href="{% url 'profile' username=user.username %}">Meu Perfil</a> |
             <a href="{% url 'feed' %}">Feed</a> |
             <a href="/admin/">Admin</a> |
             <a href="/accounts/logout/">Sair</a>

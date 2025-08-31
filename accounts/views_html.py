@@ -48,7 +48,7 @@ def posts_view(request):
         {"title": "Primeiro post", "content": "Este é um post de exemplo."},
         {"title": "Segundo post", "content": "Outro conteúdo qualquer."},
     ]
-    return render(request, "accounts/posts.html", {"posts": posts, "user": request.user})
+    return render(request, "posts/feed.html", {"posts": posts, "user": request.user})
 
 
 @login_required
