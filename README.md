@@ -1,13 +1,13 @@
 # Twitter Clone
 
 ## Autor
-Diego Cavalcanti
+Alex Santos
 
 ## Versão
 1.0
 
 ## Data
-2025-01-03
+2025-09-02
 
 ---
 
@@ -19,8 +19,8 @@ O **Twitter** é uma aplicação desenvolvida para aprofundar conhecimentos em D
 - **Frontend**: Desenvolvido em React com integração ao backend via Axios, com estilização usando Tailwind CSS.
 
 O projeto foi implantado utilizando:
-- **Backend**: PythonAnywhere.
-- **Frontend**: Vercel.
+- **Backend**: Render.
+- **Frontend**: Render.
 
 Durante o desenvolvimento, utilizei containers Docker para configurar um ambiente com PostgreSQL, garantindo flexibilidade e escalabilidade no banco de dados durante o desenvolvimento.
 
@@ -66,7 +66,7 @@ Durante o desenvolvimento, utilizei containers Docker para configurar um ambient
 
 1. **Clonar o Repositório**:
    ```bash
-   git clone https://github.com/diegocavalcanti-dev/twitter.git
+   git clone https://github.com/Viper0333/bookstore.git
    cd twitter/backend
 
 2. **Configurar o Ambiente Virtual**:
@@ -114,7 +114,7 @@ Durante o desenvolvimento, utilizei containers Docker para configurar um ambient
 - **Webhook configurado** para atualizações automáticas.
 
 ## Frontend
-- Hospedado na **Vercel**.
+- Hospedado na **Render**.
 
 ## Tecnologias Utilizadas
 
