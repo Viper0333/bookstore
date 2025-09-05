@@ -56,11 +56,11 @@ MIDDLEWARE.insert(0, "corsheaders.middleware.CorsMiddleware")
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "https://twitter-sigma.vercel.app",
+    "https://projeto-final-xqas.onrender.com",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://twitter-sigma.vercel.app",
+    "https://projeto-final-xqas.onrender.com",
 ]
 
 ROOT_URLCONF = "twitter_clone.urls"
