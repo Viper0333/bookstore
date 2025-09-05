@@ -18,7 +18,7 @@ urlpatterns = [
     # API Endpoints
     path('api/tweets/', include('tweets.urls')),         # Endpoints de tweets
     path('api/users/', include('users.urls')),           # Endpoints de usuários (cadastro, perfil, etc.)
-    path('api/posts/', include('posts.urls')),           # Endpoints de posts (separei de users)
+    path('api/posts/', include('users.urls')),           # Endpoints de posts (separei de users)
 
     # JWT para login
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),  # Login
