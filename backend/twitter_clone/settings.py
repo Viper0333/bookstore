@@ -59,6 +59,8 @@ CORS_ALLOWED_ORIGINS = [
     "https://projeto-final-xqas.onrender.com",
 ]
 
+CORS_ALLOW_CREDENTIALS = True
+
 CSRF_TRUSTED_ORIGINS = [
     "https://projeto-final-xqas.onrender.com",
 ]
