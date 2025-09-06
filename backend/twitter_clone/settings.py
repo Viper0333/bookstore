@@ -5,9 +5,9 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key-change-me")
-DEBUG = os.environ.get("DEBUG", "1") == "1"
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split(",")
+SECRET_KEY = os.environ.get("SECRET_KEY","dev-secret-key-change-me")
+DEBUG = os.environ.get("DEBUG","1") == "1"
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS","*").split(",")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
