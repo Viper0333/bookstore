@@ -39,7 +39,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
-ROOT_URLCONF = 'mysite.urls'
+ROOT_URLCONF = "twitter_clone.urls"
 
 TEMPLATES = [
     {
@@ -68,7 +68,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 
 
-WSGI_APPLICATION = 'mysite.wsgi.application'
+WSGI_APPLICATION = "twitter_clone.wsgi.application"
 
 DATABASES = {
     'default': {
