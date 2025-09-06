@@ -18,8 +18,9 @@ def main():
 
     # Cria superusuário automático se variáveis de ambiente existirem
     if os.environ.get("CREATE_SUPERUSER") == "1":
-        from createsu import create_superuser
-        create_superuser()
+        from createsu import create_superuser_direct
+        create_superuser_direct()
+
 
     execute_from_command_line(sys.argv)
 
