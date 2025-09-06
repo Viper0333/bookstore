@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
 import os
@@ -16,6 +15,12 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
+
+    # Cria superusuário automático se variáveis de ambiente existirem
+    if os.environ.get("CREATE_SUPERUSER") == "1":
+        from createsu import create_superuser
+        create_superuser()
+
     execute_from_command_line(sys.argv)
 
 
