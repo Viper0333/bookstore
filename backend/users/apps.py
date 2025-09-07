@@ -1,19 +1,12 @@
 from django.apps import AppConfig
+import createsu
 
 class UsersConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "users"
 
-    def ready(self):
-        from .createsu import setup_superuser
-        setup_superuser()
+    # def ready(self):
+    #     createsu.setup_superuser_creation()
 
-class TwitterCloneConfig(AppConfig):
-    default_auto_field = "django.db.models.BigAutoField"
-    name = "twitter_clone"
-
-    def ready(self):
-        from .createsu import setup_superuser
-        setup_superuser()
 
 

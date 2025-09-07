@@ -16,14 +16,17 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    # pacotes de terceiros
     "django_extensions",
     "rest_framework",
-    "tweets",
-    "users",
     "rest_framework.authtoken",
     "rest_framework_simplejwt",
     "corsheaders",
-    # "users.apps.UsersConfig",
+
+    # apps do projeto
+    "tweets.apps.TweetsConfig",
+    "users.apps.UsersConfig",
 ]
 
 APPEND_SLASH = False
