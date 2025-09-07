@@ -14,6 +14,5 @@ def create_superuser_direct():
     else:
         print(f"ℹ️ Superusuário '{username}' já existe.")
 
-# conecta ao signal post_migrate
 def setup_superuser_creation():
     post_migrate.connect(lambda sender, **kwargs: create_superuser_direct())
