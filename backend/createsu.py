@@ -15,5 +15,4 @@ def create_superuser_direct():
         print(f"ℹ️ Superusuário '{username}' já existe.")
 
 def setup_superuser_creation():
-    if os.environ.get("CREATE_SUPERUSER") == "1":
-        post_migrate.connect(lambda sender, **kwargs: create_superuser_direct())
+    post_migrate.connect(lambda sender, **kwargs: create_superuser_direct())
