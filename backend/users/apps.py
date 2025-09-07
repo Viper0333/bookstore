@@ -1,12 +1,9 @@
 from django.apps import AppConfig
-import createsu
 
-class UsersConfig(AppConfig):
+class TweetsConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "users"
+    name = "users"  # Corrigi o nome aqui também (estava "twaeets")
 
     def ready(self):
-        createsu.setup_superuser_creation()
-
-
-
+        from createsu import setup_superuser_creation  # ✅ Importa aqui dentro
+        setup_superuser_creation()
