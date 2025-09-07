@@ -16,14 +16,7 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
 
-    # Cria superusuário automático se variáveis de ambiente existirem
-    if os.environ.get("CREATE_SUPERUSER") == "1":
-        from createsu import create_superuser_direct
-        create_superuser_direct()
-
-
     execute_from_command_line(sys.argv)
-
 
 if __name__ == "__main__":
     main()
