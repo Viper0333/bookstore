@@ -1,12 +1,7 @@
 import os
-import django
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
-django.setup()  # Carrega todas as apps do Django
-
 from django.contrib.auth import get_user_model
+from django.db.models.signals import post_migrate
 
-# Função segura para uso direto no manage.py
 def create_superuser_direct():
     User = get_user_model()
     username = os.getenv("DJANGO_SUPERUSER_USERNAME", "admin")
@@ -19,6 +14,6 @@ def create_superuser_direct():
     else:
         print(f"ℹ️ Superusuário '{username}' já existe.")
 
-# Função opcional para signals (como post_migrate)
-def create_superuser(sender, **kwargs):
-    create_superuser_direct()
+# conecta ao signal post_migrate
+def setup_superuser_creation():
+    post_migrate.connect(lambda sender, **kwargs: create_superuser_direct())
