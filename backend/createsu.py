@@ -1,4 +1,9 @@
 import os
+import django
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
+django.setup()  # Carrega todas as apps do Django
+
 from django.contrib.auth import get_user_model
 
 # Função segura para uso direto no manage.py
