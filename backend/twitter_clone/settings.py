@@ -23,8 +23,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "rest_framework_simplejwt",
     "corsheaders",
-    # "twitter_clone.apps.TwitterCloneConfig",
-    "users.apps.UsersConfig",
+    # "users.apps.UsersConfig",
 ]
 
 APPEND_SLASH = False
