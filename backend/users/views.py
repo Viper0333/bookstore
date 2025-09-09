@@ -53,28 +53,23 @@ class UserViewSet(ModelViewSet):
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    username_field = 'email'
+    username_field = 'username'  # troca para username
 
     def validate(self, attrs):
-        email = attrs.get('email')
+        username = attrs.get('username')
         password = attrs.get('password')
 
-        print(f"Dados recebidos para autenticação: {attrs}")  # Adicionando log
+        if not username or not password:
+            raise serializers.ValidationError({"detail": "Username e senha obrigatórios."})
 
-        if not email or not password:
-            print("Erro: Email ou senha ausentes.")  # Log adicional
-            raise serializers.ValidationError({"detail": "Email e senha são obrigatórios."})
-
-        user = authenticate(email=email, password=password)
+        user = authenticate(username=username, password=password)
         if not user:
-            print("Erro: Credenciais inválidas.")  # Log adicional
             raise serializers.ValidationError({"detail": "Credenciais inválidas."})
 
-        # Se passou, retorna o token
         data = super().validate(attrs)
         data['user'] = UserSerializer(user).data
-        print(f"Autenticação bem-sucedida: {data}")  # Log adicional
         return data
+
 
 
 class MyTokenObtainPairView(TokenObtainPairView):

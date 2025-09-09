@@ -21,7 +21,7 @@ export const useAuth = create<AuthState>((set, get) => ({
 
     login: async (email, password) => {
         try {
-            const resp = await fetch(`${API_URL}/api/token/`, {
+            const resp = await fetch(`${API_URL}/api/users/token/`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username: email, password }),
@@ -47,11 +47,11 @@ export const useAuth = create<AuthState>((set, get) => ({
 
     signup: async (name, email, password) => {
         try {
-            const resp = await fetch(`${API_URL}/api/users/`, {
+            const resp = await fetch(`${API_URL}/api/users/signup/`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    name,
+                    username: name,
                     email,
                     password,
                     password_confirmation: password,
