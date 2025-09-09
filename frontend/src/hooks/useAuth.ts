@@ -4,14 +4,14 @@ interface AuthState {
     isAuthenticated: boolean;
     token: string | null;
     refreshToken: string | null;
-    login: (username: string, password: string) => Promise<void>;
-    signup: (username: string, email: string, password: string) => Promise<void>;
+    login: (email: string, password: string) => Promise<void>;
+    signup: (name: string, email: string, password: string) => Promise<void>;
     logout: () => void;
     restoreSession: () => void;
     authFetch: (url: string, options?: RequestInit) => Promise<Response>;
 }
 
-// ✅ Usa a variável de ambiente corretamente
+// Usa a variável de ambiente corretamente
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const useAuth = create<AuthState>((set, get) => ({
@@ -19,12 +19,15 @@ export const useAuth = create<AuthState>((set, get) => ({
     token: localStorage.getItem('authToken'),
     refreshToken: localStorage.getItem('refreshToken'),
 
-    login: async (username, password) => {
+    login: async (email, password) => {
         try {
             const resp = await fetch(`${API_URL}/api/users/token/`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password }),
+                body: JSON.stringify({
+                    email, // ✅ login via email
+                    password
+                }),
             });
 
             if (!resp.ok) throw new Error('Falha no login');
@@ -45,14 +48,14 @@ export const useAuth = create<AuthState>((set, get) => ({
         }
     },
 
-    signup: async (username, email, password) => {
+    signup: async (name, email, password) => {
         try {
             const resp = await fetch(`${API_URL}/api/users/signup/`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    username,       // username usado pelo backend
-                    email,
+                    name,
+                    email,          // ✅ email
                     password,
                     password_confirmation: password,
                     bio: "",
@@ -63,7 +66,7 @@ export const useAuth = create<AuthState>((set, get) => ({
             if (!resp.ok) throw new Error('Falha no cadastro');
 
             await resp.json();
-            await get().login(username, password); // Login automático após signup
+            await get().login(email, password); // Login automático
         } catch (error) {
             console.error('Erro ao fazer cadastro:', error);
         }

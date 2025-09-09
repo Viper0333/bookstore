@@ -53,16 +53,16 @@ class UserViewSet(ModelViewSet):
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    username_field = 'username'  # troca para username
+    username_field = 'email'  # ✅ trocar para email
 
     def validate(self, attrs):
-        username = attrs.get('username')
+        email = attrs.get('email')
         password = attrs.get('password')
 
-        if not username or not password:
-            raise serializers.ValidationError({"detail": "Username e senha obrigatórios."})
+        if not email or not password:
+            raise serializers.ValidationError({"detail": "Email e senha obrigatórios."})
 
-        user = authenticate(username=username, password=password)
+        user = authenticate(email=email, password=password)  # ✅ autenticação por email
         if not user:
             raise serializers.ValidationError({"detail": "Credenciais inválidas."})
 
