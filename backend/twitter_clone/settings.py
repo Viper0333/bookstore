@@ -130,13 +130,12 @@ SIMPLE_JWT = {
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
 }
 
+# CORS
 CORS_ALLOWED_ORIGINS = [
-    "https://projeto-final-xqas.onrender.com",
+    "https://projeto-final-xqas.onrender.com",  # Seu frontend
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
-# CORS_ALLOW_CREDENTIALS = True
-
+CORS_ALLOW_CREDENTIALS = True  # Permite envio de cookies/autenticação
 CORS_ALLOW_METHODS = [
     "GET",
     "POST",
