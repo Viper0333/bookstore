@@ -24,7 +24,7 @@ export const useAuth = create<AuthState>((set, get) => ({
             const resp = await fetch(`${API_URL}/api/token/`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ username: email, password }),
             });
 
             if (!resp.ok) throw new Error('Falha no login');
