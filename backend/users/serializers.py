@@ -55,28 +55,24 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    """
-    Serializador personalizado para login usando email e senha.
-    """
-    username_field = 'email'
+    username_field = 'username'
 
     def validate(self, attrs):
-        email = attrs.get('email')
+        username = attrs.get('username')
         password = attrs.get('password')
 
-        if email and password:
-            user = authenticate(request=self.context.get('request'), email=email, password=password)
-
+        if username and password:
+            user = authenticate(request=self.context.get('request'), username=username, password=password)
             if not user:
-                raise AuthenticationFailed(_('E-mail ou senha incorretos'), code='authorization')
+                raise AuthenticationFailed(_('Usuário ou senha incorretos'), code='authorization')
         else:
-            raise AuthenticationFailed(_('Email e senha são obrigatórios'), code='authorization')
+            raise AuthenticationFailed(_('Username e senha são obrigatórios'), code='authorization')
 
         refresh = self.get_token(user)
-
         return {
             'refresh': str(refresh),
             'access': str(refresh.access_token),
+            'user': UserSerializer(user).data
         }
 
     @classmethod
@@ -85,4 +81,3 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         # Você pode adicionar informações extras ao token, se desejar:
         token['email'] = user.email
         return token
-    
