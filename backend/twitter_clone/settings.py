@@ -131,8 +131,7 @@ SIMPLE_JWT = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # dev local
-    "https://projeto-final-xqas.onrender.com",  # frontend no Render
+    "https://projeto-final-xqas.onrender.com",
 ]
 
 CORS_ALLOW_CREDENTIALS = True

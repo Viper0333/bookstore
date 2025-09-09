@@ -22,13 +22,13 @@ def create_superuser_direct():
         print(f"ℹ️ Superusuário '{username}' já existe.")
 
 
-def setup_superuser_creation():
-    """
-    Conecta o sinal post_migrate para rodar a criação do superusuário
-    SOMENTE se CREATE_SUPERUSER=1 estiver definido no ambiente.
-    """
-    if os.getenv("CREATE_SUPERUSER") == "1":
-        post_migrate.connect(
-            lambda sender, **kwargs: create_superuser_direct(),
-            dispatch_uid="create_superuser_once"
-        )
+# def setup_superuser_creation():
+#     """
+#     Conecta o sinal post_migrate para rodar a criação do superusuário
+#     SOMENTE se CREATE_SUPERUSER=1 estiver definido no ambiente.
+#     """
+#     if os.getenv("CREATE_SUPERUSER") == "1":
+#         post_migrate.connect(
+#             lambda sender, **kwargs: create_superuser_direct(),
+#             dispatch_uid="create_superuser_once"
+#         )
