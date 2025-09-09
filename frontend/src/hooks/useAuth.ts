@@ -4,8 +4,8 @@ interface AuthState {
     isAuthenticated: boolean;
     token: string | null;
     refreshToken: string | null;
-    login: (email: string, password: string) => Promise<void>;
-    signup: (name: string, email: string, password: string) => Promise<void>;
+    login: (username: string, password: string) => Promise<void>;
+    signup: (username: string, email: string, password: string) => Promise<void>;
     logout: () => void;
     restoreSession: () => void;
     authFetch: (url: string, options?: RequestInit) => Promise<Response>;
@@ -19,12 +19,12 @@ export const useAuth = create<AuthState>((set, get) => ({
     token: localStorage.getItem('authToken'),
     refreshToken: localStorage.getItem('refreshToken'),
 
-    login: async (email, password) => {
+    login: async (username, password) => {
         try {
             const resp = await fetch(`${API_URL}/api/users/token/`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username: email, password }),
+                body: JSON.stringify({ username, password }),
             });
 
             if (!resp.ok) throw new Error('Falha no login');
@@ -45,13 +45,13 @@ export const useAuth = create<AuthState>((set, get) => ({
         }
     },
 
-    signup: async (name, email, password) => {
+    signup: async (username, email, password) => {
         try {
             const resp = await fetch(`${API_URL}/api/users/signup/`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    username: name,
+                    username,       // username usado pelo backend
                     email,
                     password,
                     password_confirmation: password,
@@ -63,7 +63,7 @@ export const useAuth = create<AuthState>((set, get) => ({
             if (!resp.ok) throw new Error('Falha no cadastro');
 
             await resp.json();
-            await get().login(email, password); // Login automático
+            await get().login(username, password); // Login automático após signup
         } catch (error) {
             console.error('Erro ao fazer cadastro:', error);
         }
