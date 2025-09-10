@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Image, Smile, Calendar, MapPin } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export function TweetBox() {
     const [tweet, setTweet] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -17,7 +19,7 @@ export function TweetBox() {
 
         try {
             console.log("Enviando tweet:", tweet);
-            const response = await fetch('https://bookstore-2-w6ab.onrender.com/', {
+            const response = await fetch(`${API_URL}/api/tweets/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

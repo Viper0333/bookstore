@@ -4,6 +4,7 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from twitter_clone import views
 from django.conf.urls.static import static
+from django.conf import settings
 
 # Função home
 def home(request):

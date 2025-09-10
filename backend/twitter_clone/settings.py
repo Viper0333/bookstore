@@ -137,11 +137,11 @@ SIMPLE_JWT = {
 }
 
 # CORS
-CORS_ALLOWED_ORIGINS = [
-    "https://projeto-final-xqas.onrender.com",  # Seu frontend
-]
+# Permitir todas as origens (equivalente a "*")
+CORS_ALLOW_ALL_ORIGINS = True
 
-CORS_ALLOW_CREDENTIALS = True  # Permite envio de cookies/autenticação
+# Mantém credenciais habilitadas; o header de origem será refletido quando aplicável
+CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [
     "GET",
     "POST",
